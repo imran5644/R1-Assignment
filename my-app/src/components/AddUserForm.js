@@ -1,14 +1,15 @@
-// AddUserForm.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUser } from './features/users/usersSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AddUserForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    role: 'user',
+    role: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -40,7 +41,6 @@ const AddUserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(errors);
     if (Object.keys(errors).length === 0) {
       dispatch(addUser(formData));
       setFormData({
@@ -48,6 +48,7 @@ const AddUserForm = () => {
         email: '',
         role: 'user',
       });
+      navigate('/');
     }
   };
 
@@ -78,6 +79,7 @@ const AddUserForm = () => {
       <div>
         <label>Role:</label>
         <select name="role" value={formData.role} onChange={handleChange} required>
+        <option>Select</option>
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>

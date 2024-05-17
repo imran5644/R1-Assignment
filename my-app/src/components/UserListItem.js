@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteUser } from './features/users/usersSlice';
 import ConfirmationDialog from './ConfirmationDialog';
+import { Link } from 'react-router-dom';
 
 const UserListItem = ({ user, onEdit }) => {
   const dispatch = useDispatch();
@@ -25,7 +26,9 @@ const UserListItem = ({ user, onEdit }) => {
         <strong>Role:</strong> {user?.role}<br />
       </div>
       <div>
-        <button onClick={onEdit}>Edit</button>
+        <Link to={`/edit/${user.id}`}>
+        <button>Edit</button>
+      </Link>
         <button onClick={() => setShowConfirmation(true)}>Delete</button>
         {showConfirmation && (
           <ConfirmationDialog
