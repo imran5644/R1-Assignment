@@ -1,12 +1,14 @@
 import AddUserForm from "./components/AddUserForm";
 import UserList from "./components/UserList";
+import { Provider } from 'react-redux';
+import store from "./components/app/store";
 
 function App() {
   return (
-    <div className="App">
+    <Provider store={store}>
        <AddUserForm />
        <UserList />
-    </div>
+    </Provider>
   );
 }
 

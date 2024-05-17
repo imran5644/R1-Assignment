@@ -1,50 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import UserListItem from './UserListItem';
+import { showUser } from "./features/users/usersSlice";
+import Pagination from './Pagination';
 
-const users = [
-    {
-      id: '1',
-      username: 'johndoe',
-      email: 'johndoe@example.com',
-      role: 'admin',
-    },
-    {
-      id: '2',
-      username: 'janedoe',
-      email: 'janedoe@example.com',
-      role: 'user',
-    },
-    {
-      id: '3',
-      username: 'mike123',
-      email: 'mike123@example.com',
-      role: 'user',
-    },
-    {
-      id: '4',
-      username: 'susan_smith',
-      email: 'susan_smith@example.com',
-      role: 'admin',
-    },
-  ];
-  
 
-const UserList = () => {
-  
+const UserListPage = () => {
+  const dispatch = useDispatch();
+  const { users, loading } = useSelector((state) => state.users);
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
+
+  // Get current users
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    dispatch(showUser());
+  }, [dispatch]);
+
+  if (loading) {
+    return <h2>Loading</h2>;
+  }
 
   return (
     <div>
       <h2>User List</h2>
       <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            {user.username} ({user.email}) - {user.role}
-            <button>Edit</button>
-            <button>Delete</button>
-          </li>
+        {currentUsers.map(user => (
+          <UserListItem key={user.id} user={user} />
         ))}
       </ul>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(users.length / usersPerPage)}
+        paginate={paginate}
+      />
     </div>
   );
 };
 
-export default UserList;
+export default UserListPage;
+
