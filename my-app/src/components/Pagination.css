@@ -1,0 +1,30 @@
+/* Pagination.css */
+
+.pagination {
+    list-style: none; /* Remove bullet points */
+    display: flex;
+    justify-content: center; /* Center-align pagination */
+  }
+  
+  .pagination li {
+    margin: 0 5px; /* Add spacing between pagination items */
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+  }
+  
+  .pagination .active button {
+    background-color: #45a049; /* Darker green color for active page */
+  }
+  
