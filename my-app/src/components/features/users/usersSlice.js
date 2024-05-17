@@ -9,7 +9,6 @@ const initialState = {
 export const addUser = createAsyncThunk(
   "addUser",
   async (data, { rejectWithValue }) => {
-    console.log("data", data);
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/users",
       {
@@ -23,7 +22,7 @@ export const addUser = createAsyncThunk(
 
     try {
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
@@ -51,7 +50,6 @@ export const showUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "updateUser",
   async (data, { rejectWithValue }) => {
-    console.log("updated data", data);
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/users/${data.id}`,
       {
@@ -65,6 +63,7 @@ export const updateUser = createAsyncThunk(
 
     try {
       const result = await response.json();
+      // console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
@@ -72,6 +71,18 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const fetchUserById = createAsyncThunk(
+  'users/fetchUserById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const deleteUser = createAsyncThunk(
   "deleteUser",
@@ -99,6 +110,23 @@ const usersSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.loading = false;
+        const existingUserIndex = state.users.findIndex(user => user.id === action.payload.id);
+        if (existingUserIndex !== -1) {
+          state.users[existingUserIndex] = action.payload;
+        } else {
+          state.users.push(action.payload);
+        }
+      })
+      .addCase(fetchUserById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
     builder
       .addCase(addUser.pending, (state) => {
         state.loading = true;
@@ -158,6 +186,5 @@ const usersSlice = createSlice({
   },
 });
 
-// export const { addUser } = usersSlice.actions;
 
 export default usersSlice.reducer;

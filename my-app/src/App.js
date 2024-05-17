@@ -4,7 +4,8 @@ import UserList from "./components/UserList";
 import { Provider } from 'react-redux';
 import store from "./components/app/store";
 import React, { useState } from 'react';
-import EditUserForm from "./components/EditUserForm"
+import EditUserForm from "./components/EditUserForm";
+import UserDetails from './components/UserDetails';
 
 function App() {
   const [editingUser, setEditingUser] = useState(null);
@@ -16,6 +17,7 @@ function App() {
           <Route path="/addUser" element={<AddUserForm />} />
           <Route path="/" element={<UserList setEditingUser={setEditingUser} />} />
           <Route path="/edit/:id" element={<EditUserForm />} />
+          <Route path="/user/:id" element={<UserDetails />} />
         </Routes>
       </Router>
     </Provider>

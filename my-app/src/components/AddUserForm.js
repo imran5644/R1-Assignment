@@ -46,7 +46,7 @@ const AddUserForm = () => {
       setFormData({
         username: '',
         email: '',
-        role: 'user',
+        role: '',
       });
       navigate('/');
     }
@@ -79,7 +79,7 @@ const AddUserForm = () => {
       <div>
         <label>Role:</label>
         <select name="role" value={formData.role} onChange={handleChange} required>
-        <option>Select</option>
+          <option>Select</option>
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>

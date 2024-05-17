@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UserListItem from './UserListItem';
-import { showUser } from "./features/users/usersSlice";
+import { showUser, deleteUser  } from "./features/users/usersSlice";
 import Pagination from './Pagination';
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,12 @@ const UserListPage = () => {
     dispatch(showUser());
   }, [dispatch]);
 
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      dispatch(deleteUser(id));
+    }
+  };
+
   if (loading) {
     return <h2>Loading</h2>;
   }
@@ -37,7 +43,7 @@ const UserListPage = () => {
       <h2>User List</h2>
       <ul>
         {currentUsers.map(user => (
-          <UserListItem key={user.id} user={user} />
+          <UserListItem key={user.id} user={user} onDelete={handleDelete} />
         ))}
       </ul>
       <Pagination

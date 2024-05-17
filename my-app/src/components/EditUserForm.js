@@ -1,37 +1,35 @@
-// EditUserForm.js
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateUser } from './features/users/usersSlice';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserById, updateUser } from './features/users/usersSlice';
+import { useNavigate } from 'react-router-dom';
 
-const EditUserForm = ({ user }) => {
+const EditUserForm = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.users.users.find((user) => user.id === parseInt(id)));
+  
   const [formData, setFormData] = useState({
-    username: user?.username,
-    email: user?.email,
-    role: user?.role,
+    username: '',
+    email: '',
+    role: 'user',
   });
-  const [errors, setErrors] = useState({});
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUserById(id));
+    } else {
+      setFormData({
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      });
+    }
+  }, [user, dispatch, id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newErrors = { ...errors };
-
-    if (name === 'email') {
-      if (!validateEmail(value)) {
-        newErrors.email = 'Please enter a valid email address';
-      } else {
-        delete newErrors.email;
-      }
-    } 
-    
-
-    setErrors(newErrors);
-  
     setFormData({
       ...formData,
       [name]: value,
@@ -40,9 +38,8 @@ const EditUserForm = ({ user }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (Object.keys(errors).length === 0) {
-      dispatch(updateUser({ id: user.id, ...formData }));
-    }
+    dispatch(updateUser({ id: parseInt(id), ...formData }));
+    navigate('/');
   };
 
   return (
@@ -67,17 +64,16 @@ const EditUserForm = ({ user }) => {
           onChange={handleChange}
           required
         />
-        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
       </div>
       <div>
         <label>Role:</label>
         <select name="role" value={formData.role} onChange={handleChange} required>
-          <option value="">Select Role</option>
+          <option>Select</option>
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
       </div>
-      <button type="submit">Save Changes</button>
+      <button type="submit">Update User</button>
     </form>
   );
 };
