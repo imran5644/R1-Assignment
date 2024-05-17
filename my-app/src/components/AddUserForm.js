@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUser } from './features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
+import './AddUserForm.css';
 
 const AddUserForm = () => {
   const dispatch = useDispatch();
@@ -53,39 +54,43 @@ const AddUserForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add User</h2>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
-      </div>
-      <div>
-        <label>Role:</label>
-        <select name="role" value={formData.role} onChange={handleChange} required>
-          <option>Select</option>
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
-      <button type="submit">Add User</button>
-    </form>
+    <div className="form-container">
+      <form onSubmit={handleSubmit}>
+        <h2>Add User</h2>
+        <div className="form-group">
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          {errors.email && <span>{errors.email}</span>}
+        </div>
+        <div className="form-group">
+          <label>Role:</label>
+          <select name="role" value={formData.role} onChange={handleChange} required>
+            <option>Select</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <button type="submit">Add User</button>
+        </div>
+      </form>
+    </div>
   );
 };
 

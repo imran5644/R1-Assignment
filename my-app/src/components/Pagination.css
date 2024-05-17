@@ -1,18 +1,16 @@
-/* Pagination.css */
-
 .pagination {
-    list-style: none; /* Remove bullet points */
+    list-style: none; 
     display: flex;
-    justify-content: center; /* Center-align pagination */
+    justify-content: center; 
   }
   
   .pagination li {
-    margin: 0 5px; /* Add spacing between pagination items */
+    margin: 0 5px; 
   }
   
   .pagination button {
     padding: 8px 12px;
-    background-color: #4CAF50; /* Green color */
+    background-color: #4CAF50; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -21,10 +19,10 @@
   }
   
   .pagination button:hover {
-    background-color: #45a049; /* Darker green color on hover */
+    background-color: #45a049; 
   }
   
   .pagination .active button {
-    background-color: #45a049; /* Darker green color for active page */
+    background-color: #45a049; 
   }
   

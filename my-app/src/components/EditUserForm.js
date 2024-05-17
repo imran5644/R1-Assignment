@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserById, updateUser } from './features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
+import './AddUserForm.css'; 
 
 const EditUserForm = () => {
   const { id } = useParams();
@@ -43,9 +44,9 @@ const EditUserForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Edit User</h2>
-      <div>
+    <form className="form-container" onSubmit={handleSubmit}> 
+      <h2 className="form-title">Edit User</h2> 
+      <div className="form-group"> 
         <label>Username:</label>
         <input
           type="text"
@@ -55,7 +56,7 @@ const EditUserForm = () => {
           required
         />
       </div>
-      <div>
+      <div className="form-group"> 
         <label>Email:</label>
         <input
           type="email"
@@ -65,7 +66,7 @@ const EditUserForm = () => {
           required
         />
       </div>
-      <div>
+      <div className="form-group"> 
         <label>Role:</label>
         <select name="role" value={formData.role} onChange={handleChange} required>
           <option>Select</option>
@@ -73,7 +74,7 @@ const EditUserForm = () => {
           <option value="admin">Admin</option>
         </select>
       </div>
-      <button type="submit">Update User</button>
+      <button type="submit" className="form-submit-button">Update User</button> 
     </form>
   );
 };
