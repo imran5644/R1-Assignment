@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { addUser } from "./features/users/usersSlice";
 
 const AddUserForm = () => {
+  const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -17,6 +20,12 @@ const AddUserForm = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(addUser(formData));
+        setFormData({
+          username: '',
+          email: '',
+          role: 'user',
+        });
     };
 
   return (

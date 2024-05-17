@@ -6,6 +6,31 @@ const initialState = {
   error: null,
 };
 
+export const addUser = createAsyncThunk(
+  "addUser",
+  async (data, { rejectWithValue }) => {
+    console.log("data", data);
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    try {
+      const result = await response.json();
+      console.log(result);
+      return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 
 export const showUser = createAsyncThunk(
   'showUser',
@@ -26,11 +51,21 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: initialState,
   reducers: {
-    addUser: (state, action) => {
-      state.users.push(action.payload);
-    },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(addUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users.push(action.payload);
+      })
+      .addCase(addUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    
     builder
       .addCase(showUser.pending, (state) => {
         state.loading = true;
@@ -46,6 +81,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { addUser } = usersSlice.actions;
+// export const { addUser } = usersSlice.actions;
 
 export default usersSlice.reducer;
