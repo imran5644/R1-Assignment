@@ -23,7 +23,7 @@ export const addUser = createAsyncThunk(
 
     try {
       const result = await response.json();
-      // console.log(result);
+      console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
@@ -53,7 +53,7 @@ export const updateUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log("updated data", data);
     const response = await fetch(
-      `https://641dd63d945125fff3d75742.mockapi.io/crud/${data.id}`,
+      `https://jsonplaceholder.typicode.com/users/${data.id}`,
       {
         method: "PUT",
         headers: {
@@ -83,7 +83,7 @@ export const deleteUser = createAsyncThunk(
 
     try {
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
       return result;
     } catch (error) {
       return rejectWithValue(error);
